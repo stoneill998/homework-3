@@ -1,0 +1,78 @@
+---
+title: 'BIA 6301 HW #3'
+author: "Sean O'Neill"
+date: '`r Sys.Date()`'
+output:
+  word_document: default
+  pdf_document: default
+  html_document: default
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+##PART A
+REad in crash file and adjusted file from last week
+
+```{r}
+library(clustMixType)
+crash_redo2 <- read.csv("C:/school/BIA6301/week3/crash96.csv")
+crash_redo3 <- crash_redo2[,c(4,6:12)]
+#elbow plot  #
+
+
+# Elbow Method for finding the optimal number of clusters
+set.seed(123)
+# Compute and plot wss for k = 2 to k = 15.
+k.max <- 15
+data <- na.omit(crash_redo3) # to remove the rows with NA's
+wss <- sapply(1:k.max, 
+ function(k){kproto(data, k)$tot.withinss})
+wss
+plot(1:k.max, wss,
+ type="b", pch = 19, frame = FALSE, 
+ xlab="Number of clusters K",
+ ylab="Total within-clusters sum of squares")
+
+#Simulations Run
+
+crash.kprototype2 <- kproto(crash_redo3, k=2) 
+
+crash.kprototype3 <- kproto(crash_redo3, k=3) 
+
+crash.kprototype4 <- kproto(crash_redo3, k=4) 
+
+crash.kprototype5 <- kproto(crash_redo3, k=5) 
+
+crash.kprototype6 <- kproto(crash_redo3, k=6) 
+
+
+
+crash.kprototype7 <- kproto(crash_redo3, k=7) 
+
+#final model
+set.seed(123)
+crash.kprototype8 <- kproto(crash_redo3, k=8) 
+summary(crash.kprototype8)
+
+crash.kprototype8$size  
+
+#Part B
+#PCA Part
+set.seed(123)
+Unversities <- read.csv("C:/school/BIA6301/week3/Universities_new.csv")
+data1<-Unversities[,c(2:18)]
+
+pcs<-prcomp(data1, scale. = T) #use scale option to z-normalize data set. 
+summary(pcs)
+pcs$rotation
+
+
+
+
+
+
+```
+
+
